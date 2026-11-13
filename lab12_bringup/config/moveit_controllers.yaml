@@ -1,0 +1,28 @@
+# From kinova_gen3_7dof_robotiq_2f_85_moveit_config (BSD-3-Clause).
+# Changed: gripper action type and allowed_start_tolerance.
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+trajectory_execution:
+  allowed_start_tolerance: 0.05  # default 0.01; the simulated arm is still settling after a motion
+moveit_simple_controller_manager:
+  controller_names:
+    - joint_trajectory_controller
+    - robotiq_gripper_controller
+  joint_trajectory_controller:
+    type: FollowJointTrajectory
+    joints:
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
+      - joint_7
+    action_ns: follow_joint_trajectory
+    default: true
+  robotiq_gripper_controller:
+    type: ParallelGripperCommand  # served by parallel_gripper_action_controller
+    joints:
+      - robotiq_85_left_knuckle_joint
+    action_ns: gripper_cmd
+    default: true

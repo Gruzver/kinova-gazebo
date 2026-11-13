@@ -1,8 +1,12 @@
 # Lab 12: pick and place in Gazebo (Kinova Gen3 + MoveIt 2)
 
-A Kinova Gen3 arm with a Robotiq 2F-85 gripper on a table, a red cube, MoveIt 2 and RViz.
-Your task: complete `lab12_pick_place/src/pick_place.cpp` so the arm picks the cube and leaves
-it at the place spot. Same MoveIt API as Lab 11 (`go_to_pose`, `draw_square`).
+A Kinova Gen3 arm with a Robotiq 2F-85 gripper on a table, a red cube, a blue basket, two depth
+cameras, MoveIt 2 and RViz. Your task: complete `lab12_pick_place/src/pick_place.cpp` so the arm
+picks the cube and leaves it in the basket. Same MoveIt API as Lab 11 (`go_to_pose`, `draw_square`).
+
+![Expected result: Gazebo (left) and RViz with the wrist and scene cameras (right)](docs/demo.gif)
+
+Expected result, 1.5x speed. [Full video at real speed (MP4)](docs/demo.mp4)
 
 Ubuntu 24.04 + ROS 2 Jazzy.
 

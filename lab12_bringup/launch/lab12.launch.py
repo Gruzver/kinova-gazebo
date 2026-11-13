@@ -2,7 +2,8 @@
 #
 # Based on kortex_bringup/launch/kortex_sim_control.launch.py
 # Copyright (c) 2021 PickNik, Inc. Licensed under the Apache License, Version 2.0.
-# Changed: Gen3 7-DoF + Robotiq 2F-85 only, lab12 world, gripper effort, grasp fix, starts MoveIt.
+# Changed: Gen3 7-DoF + Robotiq 2F-85 + wrist camera only, lab12 world, gripper effort, grasp fix,
+# starts MoveIt.
 
 import os
 
@@ -37,6 +38,29 @@ DETACHABLE_JOINT = """
 
 
 ROBOT_Z = 0.3  # robot base on top of the table
+CAMERA_WIDTH, CAMERA_HEIGHT = 320, 240  # wrist camera; 640x480 point clouds are heavy for lab PCs
+
+
+def configure_camera(robot_description):
+    """Scale the wrist camera intrinsics (written for 640x480) and see from 15 cm."""
+    # The world loads the Sensors system (ogre2); a second copy from the robot stalls rendering
+    for plugin in robot_description.getElementsByTagName("plugin"):
+        if plugin.getAttribute("filename") == "gz-sim-sensors-system":
+            plugin.parentNode.removeChild(plugin)
+    scale = CAMERA_WIDTH / 640
+    for sensor in robot_description.getElementsByTagName("sensor"):
+        for tag in ("fx", "fy", "p_fx", "p_fy"):
+            for e in sensor.getElementsByTagName(tag):
+                e.firstChild.data = str(554.25469 * scale)
+        for tag, size in (("cx", CAMERA_WIDTH), ("p_cx", CAMERA_WIDTH), ("cy", CAMERA_HEIGHT), ("p_cy", CAMERA_HEIGHT)):
+            for e in sensor.getElementsByTagName(tag):
+                e.firstChild.data = str(size / 2 + 0.5)
+        for depth in sensor.getElementsByTagName("depth_camera"):
+            depth.getElementsByTagName("near")[0].firstChild.data = "0.15"
+        # Gazebo writes the points in camera_color_frame (x forward) but labels them with the
+        # optical frame, which is not in TF; without it the messages use camera_color_frame
+        for optical in sensor.getElementsByTagName("optical_frame_id"):
+            optical.parentNode.removeChild(optical)
 
 
 def share(package):
@@ -52,7 +76,10 @@ def generate_launch_description():
             "name": "gen3",
             "arm": "gen3",
             "dof": "7",
-            "vision": "false",
+            "vision": "true",
+            "camera_width": str(CAMERA_WIDTH),
+            "camera_height": str(CAMERA_HEIGHT),
+            "camera_fps": "10",
             "prefix": "",
             "sim_gazebo": "true",
             "gripper": "robotiq_2f_85",
@@ -66,6 +93,7 @@ def generate_launch_description():
         limits = joint.getElementsByTagName("limit")  # skips the <joint> tags inside <ros2_control>
         if limits and joint.getAttribute("name") in ("robotiq_85_left_knuckle_joint", "robotiq_85_right_knuckle_joint"):
             limits[0].setAttribute("effort", "5")
+    configure_camera(robot_description)
     robot_description = robot_description.toxml().replace("</robot>", DETACHABLE_JOINT + "</robot>")
 
     world = os.path.join(share("lab12_bringup"), "worlds", "lab12.sdf")
@@ -99,6 +127,10 @@ def generate_launch_description():
             "/gripper/attach@std_msgs/msg/Empty]gz.msgs.Empty",
             "/gripper/detach@std_msgs/msg/Empty]gz.msgs.Empty",
             "/model/cube/pose@geometry_msgs/msg/PoseStamped[gz.msgs.Pose",
+            "/wrist_mounted_camera/image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/wrist_mounted_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/wrist_mounted_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
+            "/wrist_mounted_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
         ],
     )
 

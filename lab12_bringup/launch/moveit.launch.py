@@ -1,6 +1,7 @@
 # Based on kinova_gen3_7dof_robotiq_2f_85_moveit_config/launch/sim.launch.py
 # Copyright (c) 2023 PickNik, Inc. Licensed under the Apache License, Version 2.0.
-# Changed: uses lab12_bringup's SRDF and moveit_controllers.yaml, fix_start_state enabled.
+# Changed: wrist camera, lab12_bringup's SRDF, moveit_controllers.yaml and RViz config,
+# fix_start_state enabled.
 
 import os
 
@@ -27,7 +28,7 @@ def generate_launch_description():
                 "gripper": "robotiq_2f_85",
                 "dof": "7",
                 "sim_gazebo": "true",
-                "vision": "false",
+                "vision": "true",
             }
         )
         .robot_description_semantic(file_path=os.path.join(config_dir, "gen3.srdf"))
@@ -57,11 +58,7 @@ def generate_launch_description():
         output="log",
         arguments=[
             "-d",
-            os.path.join(
-                get_package_share_directory("kinova_gen3_7dof_robotiq_2f_85_moveit_config"),
-                "config",
-                "moveit.rviz",
-            ),
+            os.path.join(config_dir, "lab12.rviz"),
         ],
         parameters=[
             moveit_config.robot_description,

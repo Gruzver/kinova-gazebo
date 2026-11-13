@@ -55,7 +55,7 @@ To start over, close terminal 1 (Ctrl+C) and launch it again: the cube goes back
 |---|---|
 | Table surface | z = 0 |
 | Cube centre (5 cm cube) | (0.50, 0.00, 0.025) |
-| Place spot | (0.50, -0.30) |
+| Blue basket (place spot) | centre (0.50, -0.30), 18 cm inside, 5 cm high |
 
 - Planning groups: `manipulator` (arm, tip `end_effector_link`) and `gripper`.
 - Named poses: `Home` (arm), `Open` and `Close` (gripper).
@@ -65,6 +65,20 @@ To start over, close terminal 1 (Ctrl+C) and launch it again: the cube goes back
   gripper and terminal 1 prints `Object detected: cube grasped`; opening the gripper releases it
   (like the object detection of the real Robotiq). `/gripper/object_detected` (`std_msgs/msg/Bool`)
   says whether the gripper is holding the cube.
+
+## Wrist camera (depth)
+
+The Gen3 vision module is simulated as an RGB-D camera on the wrist (320x240, 10 Hz), looking
+where the gripper points. RViz shows its image and point cloud.
+
+| Topic | Type |
+|---|---|
+| `/wrist_mounted_camera/image` | `sensor_msgs/msg/Image` (color) |
+| `/wrist_mounted_camera/depth_image` | `sensor_msgs/msg/Image` (depth in metres, from 0.15 m) |
+| `/wrist_mounted_camera/points` | `sensor_msgs/msg/PointCloud2` |
+| `/wrist_mounted_camera/camera_info` | `sensor_msgs/msg/CameraInfo` |
+
+All in frame `camera_color_frame` (x forward, along the gripper).
 
 ## If something fails
 

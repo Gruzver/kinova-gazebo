@@ -11,6 +11,9 @@
     <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
     <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
     <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
 
     <light type="directional" name="sun">
       <cast_shadows>true</cast_shadows>
@@ -50,6 +53,36 @@
             <ambient>0.55 0.40 0.25 1</ambient>
             <diffuse>0.55 0.40 0.25 1</diffuse>
           </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Basket (place spot): centre (0.50, -0.30) in base_link, 18 cm inside, 5 cm high.
+         No collision floor: the cube rests on the table. -->
+    <model name="basket">
+      <static>true</static>
+      <pose>0.50 -0.30 0.30 0 0 0</pose>
+      <link name="link">
+        <collision name="wall_x_pos"><pose>0.095 0 0.025 0 0 0</pose><geometry><box><size>0.01 0.2 0.05</size></box></geometry></collision>
+        <visual name="wall_x_pos"><pose>0.095 0 0.025 0 0 0</pose><geometry><box><size>0.01 0.2 0.05</size></box></geometry>
+          <material><ambient>0.1 0.3 0.8 1</ambient><diffuse>0.1 0.3 0.8 1</diffuse></material>
+        </visual>
+        <collision name="wall_x_neg"><pose>-0.095 0 0.025 0 0 0</pose><geometry><box><size>0.01 0.2 0.05</size></box></geometry></collision>
+        <visual name="wall_x_neg"><pose>-0.095 0 0.025 0 0 0</pose><geometry><box><size>0.01 0.2 0.05</size></box></geometry>
+          <material><ambient>0.1 0.3 0.8 1</ambient><diffuse>0.1 0.3 0.8 1</diffuse></material>
+        </visual>
+        <collision name="wall_y_pos"><pose>0 0.095 0.025 0 0 0</pose><geometry><box><size>0.18 0.01 0.05</size></box></geometry></collision>
+        <visual name="wall_y_pos"><pose>0 0.095 0.025 0 0 0</pose><geometry><box><size>0.18 0.01 0.05</size></box></geometry>
+          <material><ambient>0.1 0.3 0.8 1</ambient><diffuse>0.1 0.3 0.8 1</diffuse></material>
+        </visual>
+        <collision name="wall_y_neg"><pose>0 -0.095 0.025 0 0 0</pose><geometry><box><size>0.18 0.01 0.05</size></box></geometry></collision>
+        <visual name="wall_y_neg"><pose>0 -0.095 0.025 0 0 0</pose><geometry><box><size>0.18 0.01 0.05</size></box></geometry>
+          <material><ambient>0.1 0.3 0.8 1</ambient><diffuse>0.1 0.3 0.8 1</diffuse></material>
+        </visual>
+        <visual name="floor">
+          <pose>0 0 0.001 0 0 0</pose>
+          <geometry><box><size>0.18 0.18 0.002</size></box></geometry>
+          <material><ambient>0.6 0.75 1 1</ambient><diffuse>0.6 0.75 1 1</diffuse></material>
         </visual>
       </link>
     </model>

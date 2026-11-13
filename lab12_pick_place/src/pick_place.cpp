@@ -7,7 +7,7 @@ using moveit::planning_interface::MoveGroupInterface;
 
 // Positions in base_link (metres). The table surface is z = 0.
 constexpr double kCubeX = 0.50, kCubeY = 0.00;    // red cube (5 cm)
-constexpr double kPlaceX = 0.50, kPlaceY = -0.30;  // where to leave it
+constexpr double kPlaceX = 0.50, kPlaceY = -0.30;  // centre of the blue basket
 constexpr double kGraspZ = 0.165;  // end_effector_link height with the fingers around the cube
 constexpr double kAbove = 0.10;    // approach and leave 10 cm above
 // Gripper pointing down, as in Home; the fingers close along x

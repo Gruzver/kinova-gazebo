@@ -1,8 +1,8 @@
-# Lab 12: pick and place in Gazebo (Kinova Gen3 + MoveIt 2)
+# Pick and place in Gazebo (Kinova Gen3 + MoveIt 2)
 
 A Kinova Gen3 arm with a Robotiq 2F-85 gripper on a table, a red cube, a blue basket, two depth
-cameras, MoveIt 2 and RViz. Your task: complete `lab12_pick_place/src/pick_place.cpp` so the arm
-picks the cube and leaves it in the basket. Same MoveIt API as Lab 11 (`go_to_pose`, `draw_square`).
+cameras, MoveIt 2 and RViz. Your task: complete `kinova_pick_place/src/pick_place.cpp` so the arm
+picks the cube and leaves it in the basket. Same MoveIt API as the Panda MoveIt lab (`go_to_pose`, `draw_square`).
 
 ![Expected result: Gazebo (left) and RViz with the wrist and scene cameras (right)](docs/demo.gif)
 
@@ -29,10 +29,10 @@ echo 'export GZ_IP=127.0.0.1' >> ~/.bashrc
 ## 2. Build
 
 ```bash
-mkdir -p ~/lab12_ws/src
-cd ~/lab12_ws/src
+mkdir -p ~/kinova_ws/src
+cd ~/kinova_ws/src
 git clone https://github.com/Gruzver/kinova-gazebo.git
-cd ~/lab12_ws
+cd ~/kinova_ws
 colcon build --allow-overriding robotiq_description
 ```
 
@@ -42,15 +42,15 @@ colcon build --allow-overriding robotiq_description
 
 ```bash
 # Terminal 1: Gazebo + robot + cube + MoveIt + RViz
-source ~/lab12_ws/install/setup.bash
-ros2 launch lab12_bringup lab12.launch.py
+source ~/kinova_ws/install/setup.bash
+ros2 launch kinova_gazebo_bringup sim.launch.py
 
 # Terminal 2: your node
-source ~/lab12_ws/install/setup.bash
-ros2 run lab12_pick_place pick_place
+source ~/kinova_ws/install/setup.bash
+ros2 run kinova_pick_place pick_place
 ```
 
-After editing the `.cpp`: `colcon build --packages-select lab12_pick_place`, then run again.
+After editing the `.cpp`: `colcon build --packages-select kinova_pick_place`, then run again.
 To start over, close terminal 1 (Ctrl+C) and launch it again: the cube goes back to its place.
 
 ## The scene
@@ -83,13 +83,13 @@ x forward (along the camera view). The wrist camera measures depth from 0.15 m.
 
 RViz: the 3D view shows the robot and both point clouds; on the right, the wrist and scene camera
 images; on the left, Displays to turn each one on or off (`Wrist axes` / `Scene axes` show the camera
-frames). The `MotionPlanning` display from Lab 11 is off; enable it to plan by hand.
+frames). The `MotionPlanning` display (interactive planning) is off; enable it to plan by hand.
 
 ## If something fails
 
 | Message | Fix |
 |---|---|
-| `Package 'lab12_bringup' not found` | `source ~/lab12_ws/install/setup.bash` in that terminal |
+| `Package 'kinova_gazebo_bringup' not found` | `source ~/kinova_ws/install/setup.bash` in that terminal |
 | `Planning failed` | pose out of reach or in collision: check x, y, z |
 | `Only N % of the line` | the straight line is not reachable: move the points closer to (0.5, 0, 0.2) |
 | No `Object detected` after closing | the fingers did not close around the cube: check x, y and `kGraspZ` |

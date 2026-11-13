@@ -13,7 +13,7 @@ constexpr double kAbove = 0.10;    // approach and leave 10 cm above
 // Gripper pointing down, as in Home; the fingers close along x
 constexpr double kRoll = M_PI, kPitch = 0.0, kYaw = M_PI;
 
-// x, y, z in metres; roll, pitch, yaw in radians (same helper as Lab 11)
+// x, y, z in metres; roll, pitch, yaw in radians (same helper as in go_to_pose)
 geometry_msgs::msg::Pose make_pose(double x, double y, double z,
                                    double r, double p, double yw)
 {

@@ -1,8 +1,8 @@
-# Lab 12: Kinova Gen3 + Robotiq 2F-85 in Gazebo (table + cube), with MoveIt and RViz.
+# Kinova Gen3 + Robotiq 2F-85 in Gazebo (table + cube), with MoveIt and RViz.
 #
 # Based on kortex_bringup/launch/kortex_sim_control.launch.py
 # Copyright (c) 2021 PickNik, Inc. Licensed under the Apache License, Version 2.0.
-# Changed: Gen3 7-DoF + Robotiq 2F-85 + wrist camera only, lab12 world, scene camera, gripper
+# Changed: Gen3 7-DoF + Robotiq 2F-85 + wrist camera only, pick_place world, scene camera, gripper
 # effort, grasp fix, starts MoveIt.
 
 import os
@@ -86,7 +86,7 @@ def generate_launch_description():
             "sim_gazebo": "true",
             "gripper": "robotiq_2f_85",
             "simulation_controllers": os.path.join(
-                share("lab12_bringup"), "config", "ros2_controllers.yaml"
+                share("kinova_gazebo_bringup"), "config", "ros2_controllers.yaml"
             ),
         },
     )
@@ -98,7 +98,7 @@ def generate_launch_description():
     configure_camera(robot_description)
     robot_description = robot_description.toxml().replace("</robot>", DETACHABLE_JOINT + "</robot>")
 
-    world = os.path.join(share("lab12_bringup"), "worlds", "lab12.sdf")
+    world = os.path.join(share("kinova_gazebo_bringup"), "worlds", "pick_place.sdf")
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(share("ros_gz_sim"), "launch", "gz_sim.launch.py")),
         launch_arguments={
@@ -125,7 +125,7 @@ def generate_launch_description():
         package="ros_gz_sim",
         executable="create",
         output="screen",
-        arguments=["-file", os.path.join(share("lab12_bringup"), "models", "scene_camera.sdf"),
+        arguments=["-file", os.path.join(share("kinova_gazebo_bringup"), "models", "scene_camera.sdf"),
                    "-name", "scene_camera", "-x", x, "-y", y, "-z", z, "-R", roll, "-P", pitch, "-Y", yaw],
     )
     # TF "world" is the robot base, ROBOT_Z above the Gazebo world origin
@@ -158,7 +158,7 @@ def generate_launch_description():
     )
 
     grasp_fix = Node(
-        package="lab12_bringup",
+        package="kinova_gazebo_bringup",
         executable="grasp_fix.py",
         output="screen",
         parameters=[{"use_sim_time": True, "base_z": ROBOT_Z}],
@@ -184,7 +184,7 @@ def generate_launch_description():
     joint_state_broadcaster = spawner("joint_state_broadcaster")
 
     moveit = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(share("lab12_bringup"), "launch", "moveit.launch.py")),
+        PythonLaunchDescriptionSource(os.path.join(share("kinova_gazebo_bringup"), "launch", "moveit.launch.py")),
         launch_arguments={"launch_rviz": LaunchConfiguration("launch_rviz")}.items(),
     )
 

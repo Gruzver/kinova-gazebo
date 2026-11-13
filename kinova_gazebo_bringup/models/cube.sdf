@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <sdf version="1.9">
-  <!-- Same cube as in worlds/lab12.sdf. Spawn another one with:
-       ros2 run ros_gz_sim create -world lab12 -file cube.sdf -name cube2 -x 0.5 -y 0.2 -z 0.33 -->
+  <!-- Same cube as in worlds/pick_place.sdf. Spawn another one with:
+       ros2 run ros_gz_sim create -world pick_place -file cube.sdf -name cube2 -x 0.5 -y 0.2 -z 0.33 -->
   <model name="cube">
     <plugin filename="gz-sim-pose-publisher-system" name="gz::sim::systems::PosePublisher">
       <publish_model_pose>true</publish_model_pose>

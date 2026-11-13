@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <sdf version="1.9">
-  <!-- Fixed RGB-D camera looking at the table, placed by lab12.launch.py -->
+  <!-- Fixed RGB-D camera looking at the table, placed by sim.launch.py -->
   <model name="scene_camera">
     <static>true</static>
     <link name="link">

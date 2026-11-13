@@ -1,6 +1,6 @@
 # Based on kinova_gen3_7dof_robotiq_2f_85_moveit_config/launch/sim.launch.py
 # Copyright (c) 2023 PickNik, Inc. Licensed under the Apache License, Version 2.0.
-# Changed: wrist camera, lab12_bringup's SRDF, moveit_controllers.yaml and RViz config,
+# Changed: wrist camera, kinova_gazebo_bringup's SRDF, moveit_controllers.yaml and RViz config,
 # fix_start_state enabled.
 
 import os
@@ -17,7 +17,7 @@ from moveit_configs_utils import MoveItConfigsBuilder
 def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time")
     launch_rviz = LaunchConfiguration("launch_rviz")
-    config_dir = os.path.join(get_package_share_directory("lab12_bringup"), "config")
+    config_dir = os.path.join(get_package_share_directory("kinova_gazebo_bringup"), "config")
 
     moveit_config = (
         MoveItConfigsBuilder("gen3", package_name="kinova_gen3_7dof_robotiq_2f_85_moveit_config")
@@ -58,7 +58,7 @@ def generate_launch_description():
         output="log",
         arguments=[
             "-d",
-            os.path.join(config_dir, "lab12.rviz"),
+            os.path.join(config_dir, "sim.rviz"),
         ],
         parameters=[
             moveit_config.robot_description,

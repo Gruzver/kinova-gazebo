@@ -2,7 +2,7 @@
 <!-- Gazebo's empty world plus a table and a cube. The robot base is at the table top
      (z = 0.30 m), so in base_link the table surface is z = 0. -->
 <sdf version="1.9">
-  <world name="lab12">
+  <world name="pick_place">
     <physics name="1ms" type="ignored">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>

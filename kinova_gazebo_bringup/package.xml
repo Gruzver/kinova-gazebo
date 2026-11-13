@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>lab12_bringup</name>
+  <name>kinova_gazebo_bringup</name>
   <version>0.0.1</version>
-  <description>Lab 12: Kinova Gen3 in Gazebo with MoveIt, ready for pick and place</description>
+  <description>Kinova Gen3 in Gazebo with MoveIt, ready for pick and place</description>
   <maintainer email="gruzver.phocco@pucp.edu.pe">Gruzver Phocco</maintainer>
   <license>Apache-2.0</license>
 

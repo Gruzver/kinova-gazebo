@@ -2,8 +2,8 @@
 #
 # Based on kortex_bringup/launch/kortex_sim_control.launch.py
 # Copyright (c) 2021 PickNik, Inc. Licensed under the Apache License, Version 2.0.
-# Changed: Gen3 7-DoF + Robotiq 2F-85 + wrist camera only, lab12 world, gripper effort, grasp fix,
-# starts MoveIt.
+# Changed: Gen3 7-DoF + Robotiq 2F-85 + wrist camera only, lab12 world, scene camera, gripper
+# effort, grasp fix, starts MoveIt.
 
 import os
 
@@ -39,6 +39,8 @@ DETACHABLE_JOINT = """
 
 ROBOT_Z = 0.3  # robot base on top of the table
 CAMERA_WIDTH, CAMERA_HEIGHT = 320, 240  # wrist camera; 640x480 point clouds are heavy for lab PCs
+# Fixed scene camera in the Gazebo world: x, y, z, roll, pitch, yaw (looking at the table)
+SCENE_CAMERA = (1.25, -0.75, 0.95, 0.0, 0.5445, 2.5269)
 
 
 def configure_camera(robot_description):
@@ -118,6 +120,23 @@ def generate_launch_description():
         arguments=["-topic", "robot_description", "-name", "gen3", "-z", str(ROBOT_Z)],
     )
 
+    x, y, z, roll, pitch, yaw = (str(v) for v in SCENE_CAMERA)
+    spawn_scene_camera = Node(
+        package="ros_gz_sim",
+        executable="create",
+        output="screen",
+        arguments=["-file", os.path.join(share("lab12_bringup"), "models", "scene_camera.sdf"),
+                   "-name", "scene_camera", "-x", x, "-y", y, "-z", z, "-R", roll, "-P", pitch, "-Y", yaw],
+    )
+    # TF "world" is the robot base, ROBOT_Z above the Gazebo world origin
+    scene_camera_tf = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        arguments=["--x", x, "--y", y, "--z", str(SCENE_CAMERA[2] - ROBOT_Z),
+                   "--roll", roll, "--pitch", pitch, "--yaw", yaw,
+                   "--frame-id", "world", "--child-frame-id", "scene_camera"],
+    )
+
     bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
@@ -131,6 +150,10 @@ def generate_launch_description():
             "/wrist_mounted_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image",
             "/wrist_mounted_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
             "/wrist_mounted_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            "/scene_camera/image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/scene_camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/scene_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
+            "/scene_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
         ],
     )
 
@@ -177,6 +200,8 @@ def generate_launch_description():
             gazebo,
             robot_state_publisher,
             spawn_robot,
+            spawn_scene_camera,
+            scene_camera_tf,
             bridge,
             grasp_fix,
             joint_state_broadcaster,

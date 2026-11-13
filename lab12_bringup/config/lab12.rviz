@@ -9,12 +9,16 @@ Panels:
 Visualization Manager:
   Displays:
     - Class: rviz_default_plugins/Grid
-      Name: Grid
+      Name: Grid (10 cm)
+      Cell Size: 0.1
+      Plane Cell Count: 20
+      Color: 160; 160; 164
+      Alpha: 0.3
       Value: true
     - Class: moveit_rviz_plugin/MotionPlanning
       Name: MotionPlanning
       Planned Path:
-        Loop Animation: true
+        Loop Animation: false
         State Display Time: 0.05 s
         Trajectory Topic: display_planned_path
       Planning Scene Topic: monitored_planning_scene
@@ -22,14 +26,42 @@ Visualization Manager:
       Scene Geometry:
         Scene Alpha: 1
       Scene Robot:
-        Robot Alpha: 0.5
+        Robot Alpha: 1
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Name: Frames
+      Frames:
+        All Enabled: false
+        world:
+          Value: true
+        end_effector_link:
+          Value: true
+        camera_color_frame:
+          Value: true
+        scene_camera:
+          Value: true
+      Marker Scale: 0.3
+      Show Arrows: false
+      Show Axes: true
+      Show Names: true
+      Value: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Scene camera points
+      Color Transformer: RGB8
+      Style: Flat Squares
+      Size (m): 0.005
+      Topic:
+        Depth: 2
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /scene_camera/points
       Value: true
     - Class: rviz_default_plugins/PointCloud2
       Name: Wrist camera points
       Color Transformer: RGB8
-      Size (m): 0.004
-      Style: Points
-      Size (Pixels): 2
+      Style: Flat Squares
+      Size (m): 0.003
       Topic:
         Depth: 2
         Durability Policy: Volatile
@@ -38,7 +70,7 @@ Visualization Manager:
         Value: /wrist_mounted_camera/points
       Value: true
     - Class: rviz_default_plugins/Image
-      Name: Wrist camera
+      Name: Wrist camera (color)
       Topic:
         Depth: 2
         Durability Policy: Volatile
@@ -46,8 +78,28 @@ Visualization Manager:
         Reliability Policy: Best Effort
         Value: /wrist_mounted_camera/image
       Value: true
+    - Class: rviz_default_plugins/Image
+      Name: Wrist camera (depth)
+      Normalize Range: true
+      Topic:
+        Depth: 2
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /wrist_mounted_camera/depth_image
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Name: Scene camera
+      Topic:
+        Depth: 2
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /scene_camera/image
+      Value: true
   Global Options:
     Fixed Frame: world
+    Background Color: 48; 48; 48
   Tools:
     - Class: rviz_default_plugins/Interact
     - Class: rviz_default_plugins/MoveCamera
@@ -56,15 +108,15 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.8
+      Distance: 1.7
       Focal Point:
         X: 0.35
-        Y: -0.1
-        Z: 0.1
+        Y: -0.15
+        Z: 0.05
       Name: Current View
-      Pitch: 0.55
+      Pitch: 0.5
       Target Frame: world
-      Yaw: -0.75
+      Yaw: 5.65
 Window Geometry:
-  Height: 975
-  Width: 1400
+  Height: 1000
+  Width: 1600

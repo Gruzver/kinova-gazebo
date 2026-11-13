@@ -66,19 +66,19 @@ To start over, close terminal 1 (Ctrl+C) and launch it again: the cube goes back
   (like the object detection of the real Robotiq). `/gripper/object_detected` (`std_msgs/msg/Bool`)
   says whether the gripper is holding the cube.
 
-## Wrist camera (depth)
+## Depth cameras
 
-The Gen3 vision module is simulated as an RGB-D camera on the wrist (320x240, 10 Hz), looking
-where the gripper points. RViz shows its image and point cloud.
+| Camera | Topics | Frame |
+|---|---|---|
+| Wrist (the Gen3 vision module), looks where the gripper points; 320x240, 10 Hz | `/wrist_mounted_camera/...` | `camera_color_frame` |
+| Scene, fixed, looks at the table from the front; 320x240, 5 Hz | `/scene_camera/...` | `scene_camera` |
 
-| Topic | Type |
-|---|---|
-| `/wrist_mounted_camera/image` | `sensor_msgs/msg/Image` (color) |
-| `/wrist_mounted_camera/depth_image` | `sensor_msgs/msg/Image` (depth in metres, from 0.15 m) |
-| `/wrist_mounted_camera/points` | `sensor_msgs/msg/PointCloud2` |
-| `/wrist_mounted_camera/camera_info` | `sensor_msgs/msg/CameraInfo` |
+Each camera publishes `image` (`sensor_msgs/msg/Image`, color), `depth_image` (`Image`, depth in
+metres), `points` (`sensor_msgs/msg/PointCloud2`, colored) and `camera_info`. The frames have
+x forward (along the camera view). The wrist camera measures depth from 0.15 m.
 
-All in frame `camera_color_frame` (x forward, along the gripper).
+RViz shows both point clouds, the three camera images (wrist color, wrist depth, scene) and the
+frames `world`, `end_effector_link`, `camera_color_frame` and `scene_camera`.
 
 ## If something fails
 

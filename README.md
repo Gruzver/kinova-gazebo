@@ -77,8 +77,9 @@ Each camera publishes `image` (`sensor_msgs/msg/Image`, color), `depth_image` (`
 metres), `points` (`sensor_msgs/msg/PointCloud2`, colored) and `camera_info`. The frames have
 x forward (along the camera view). The wrist camera measures depth from 0.15 m.
 
-RViz shows both point clouds, the three camera images (wrist color, wrist depth, scene) and the
-frames `world`, `end_effector_link`, `camera_color_frame` and `scene_camera`.
+RViz: the 3D view shows the robot and both point clouds; on the right, the wrist and scene camera
+images; on the left, Displays to turn each one on or off (`Wrist axes` / `Scene axes` show the camera
+frames). The `MotionPlanning` display from Lab 11 is off; enable it to plan by hand.
 
 ## If something fails
 

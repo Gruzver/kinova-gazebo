@@ -20,7 +20,7 @@
             <format>R8G8B8</format>
           </image>
           <clip><near>0.1</near><far>4</far></clip>
-          <depth_camera><clip><near>0.1</near><far>4</far></clip></depth_camera>
+          <depth_camera><clip><near>0.1</near><far>2</far></clip></depth_camera>
         </camera>
         <gz_frame_id>scene_camera</gz_frame_id>
         <always_on>1</always_on>

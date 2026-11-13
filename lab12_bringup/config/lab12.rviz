@@ -2,10 +2,7 @@ Panels:
   - Class: rviz_common/Displays
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /MotionPlanning1
-  - Class: rviz_common/Views
-    Name: Views
+      Expanded: ~
 Visualization Manager:
   Displays:
     - Class: rviz_default_plugins/Grid
@@ -13,7 +10,14 @@ Visualization Manager:
       Cell Size: 0.1
       Plane Cell Count: 20
       Color: 160; 160; 164
-      Alpha: 0.3
+      Alpha: 0.25
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: Robot
+      Description Source: Topic
+      Description Topic:
+        Value: /robot_description
+      Alpha: 1
       Value: true
     - Class: moveit_rviz_plugin/MotionPlanning
       Name: MotionPlanning
@@ -23,33 +27,14 @@ Visualization Manager:
         Trajectory Topic: display_planned_path
       Planning Scene Topic: monitored_planning_scene
       Robot Description: robot_description
-      Scene Geometry:
-        Scene Alpha: 1
       Scene Robot:
-        Robot Alpha: 1
-      Value: true
-    - Class: rviz_default_plugins/TF
-      Name: Frames
-      Frames:
-        All Enabled: false
-        world:
-          Value: true
-        end_effector_link:
-          Value: true
-        camera_color_frame:
-          Value: true
-        scene_camera:
-          Value: true
-      Marker Scale: 0.3
-      Show Arrows: false
-      Show Axes: true
-      Show Names: true
-      Value: true
+        Robot Alpha: 0.5
+      Value: false
     - Class: rviz_default_plugins/PointCloud2
-      Name: Scene camera points
+      Name: Scene points
       Color Transformer: RGB8
-      Style: Flat Squares
-      Size (m): 0.005
+      Style: Points
+      Size (Pixels): 2
       Topic:
         Depth: 2
         Durability Policy: Volatile
@@ -58,10 +43,10 @@ Visualization Manager:
         Value: /scene_camera/points
       Value: true
     - Class: rviz_default_plugins/PointCloud2
-      Name: Wrist camera points
+      Name: Wrist points
       Color Transformer: RGB8
-      Style: Flat Squares
-      Size (m): 0.003
+      Style: Points
+      Size (Pixels): 2
       Topic:
         Depth: 2
         Durability Policy: Volatile
@@ -69,24 +54,26 @@ Visualization Manager:
         Reliability Policy: Best Effort
         Value: /wrist_mounted_camera/points
       Value: true
+    - Class: rviz_default_plugins/Axes
+      Name: Wrist axes
+      Reference Frame: camera_color_frame
+      Length: 0.08
+      Radius: 0.005
+      Value: true
+    - Class: rviz_default_plugins/Axes
+      Name: Scene axes
+      Reference Frame: scene_camera
+      Length: 0.1
+      Radius: 0.006
+      Value: false
     - Class: rviz_default_plugins/Image
-      Name: Wrist camera (color)
+      Name: Wrist camera
       Topic:
         Depth: 2
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
         Value: /wrist_mounted_camera/image
-      Value: true
-    - Class: rviz_default_plugins/Image
-      Name: Wrist camera (depth)
-      Normalize Range: true
-      Topic:
-        Depth: 2
-        Durability Policy: Volatile
-        History Policy: Keep Last
-        Reliability Policy: Best Effort
-        Value: /wrist_mounted_camera/depth_image
       Value: true
     - Class: rviz_default_plugins/Image
       Name: Scene camera
@@ -108,7 +95,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.7
+      Distance: 2.0
       Focal Point:
         X: 0.35
         Y: -0.15
@@ -116,7 +103,18 @@ Visualization Manager:
       Name: Current View
       Pitch: 0.5
       Target Frame: world
-      Yaw: 5.65
+      Yaw: 5.74
 Window Geometry:
-  Height: 1000
-  Width: 1600
+  Displays:
+    collapsed: false
+  Height: 1050
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd00000002000000000000012c000003bbfc0200000003fb000000100044006900730070006c0061007900730100000000000003bb0000003200fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670000000000000001900000003200fffffffb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003200ffffff000000010000021c000003bbfc0200000002fb0000001800570072006900730074002000630061006d0065007200610100000000000001db0000003200fffffffb00000018005300630065006e0065002000630061006d00650072006101000001df000001db0000003200ffffff000003b8000003bb00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Scene camera:
+    collapsed: false
+  Width: 1800
+  Wrist camera:
+    collapsed: false
+  X: 60
+  Y: 60
